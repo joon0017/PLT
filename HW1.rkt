@@ -16,7 +16,7 @@
 ;Problem 2
 ;Solved by myself.
 ;time taken around 5 mins
-;[contract] max-of-three-integers, 3 numbers -> 1 number
+;[contract] max-of-three-integers, 3 numbers -> number
 ;[purpose] find the largest number out of 3 integer numbers
 ;[tests] (test (max-of-three-integers 1 2 3) 3)
 ;(test (max-of-three-integers 50 20 10) 50)
@@ -38,7 +38,7 @@
 ;Problem 3
 ;Solved by myself
 ;time taken around 3 mins
-;[contract] volume-cuboid 3 numbers -> number
+;[contract] volume-cuboid, 3 numbers -> number
 ;[purpose] find the volume of a cuboid using 3 given numbers
 ;[tests] (test (volume-cuboid 1 5 2) 10)
 ;        (test (volume-cuboid 5 10 20) 1000)
@@ -52,62 +52,149 @@
 
 
 ;Problem 4
-;Solved by having a look into racket docs: https://docs.racket-lang.org/reference/generic-numbers.html
-;time taken around 10 mins
-;[contract] gcd 2 integer value -> gcd, 2 number -> 1 number
+;Solved with the help of this website: https://dyclassroom.com/recursion-algorithm/greatest-common-divisor-gcd
+;time taken around 3 mins
+;[contract] myGcd, 2 numbers -> 1 number
 ;[purpose] find the gcd of 2 integer values
-;[tests] (test 
-;        (test 
-;        (test 
+;[tests] (test (myGcd 15 25) 5)
+;        (test (myGcd 10 8) 2)
 
 (define (myGcd num1 num2)
     (cond
-      [(> num2 num1) (myGcd num2 num1)]
-      [(= (modulo num2 num1) 0) num1]
-      [else (myGcd num1 (- num2 1))]))
-      
+      [(= num2 0) num1]
+      [else (myGcd num2 (modulo num1 num2))]))
 
-
-(test (myGcd 8 10) 2)
+(test (myGcd 15 25) 5)
 (test (myGcd 10 8) 2)
 
 
 
 
-;Problem 
-;Solved by 
-;time taken around 
-;[contract] 
-;[purpose] 
-;[tests] (test 
-;        (test 
-;        (test 
+;Problem 5
+;Solved by myself
+;time taken around 7 mins
+;[contract] combination, 2 numbers -> number
+;[purpose] To find the number of combinations with the 2 numbers given
+;[tests] (test (combination 10 2)45)
+;        (test (combination 5 3)10)
+
+(define (factorial n)
+  (cond
+    [(<= n 1) 1]
+    [else (* n (factorial (- n 1)))]))
+
+(define (combination n k)
+  ( / (factorial n) (* (factorial (- n k)) (factorial k))))
+
+(test (combination 10 2)45)
+(test (combination 5 3)10)
 
 
 
 
 
+;Problem 6
+;Solved by myself
+;time taken around 30 mins
+;[contract] a) define-type Vehicle
+;           b) vehicle-tax, Vehicle->number
+;           c) is-vehicle-safe, Vehicle->string
+;
+;[purpose]  a) To define a type named Vehicle
+;           b) To calculate the tax each vehicle has to pay
+;           c) To determine whether a vehicle is safe or not
+;[tests]
+;        a)
+;        myBike, myCar, myAirplane
+;
+;        b)
+;        (test (vehicle-tax myBike) 2)
+;        (test (vehicle-tax myAirplane) 14)
+;
+;        c)
+;        (test (is-vehicle-safe myBike) "safe")
+;        (test (is-vehicle-safe myCar) "safe")
+;        (test (is-vehicle-safe myAirplane) "unsafe")
+
+;a)
+(define-type Vehicle
+  (Bicycle (wheels number?))
+  (Car (wheels number?) (windows number?))
+  (Airplane (wheels number?) (windows number?) (engines number?)))
+
+(define myBike(Bicycle 2))
+myBike
+(define myCar(Car 4 6))
+myCar
+(define myAirplane(Airplane 4 8 2))
+myAirplane
+
+;b)
+(define (vehicle-tax v)
+  (type-case Vehicle v
+    [Bicycle (wheel) wheel]
+    [Car (wheel window) (+ wheel window)]
+    [Airplane (wheel window engine) (+ wheel window engine)]))
+
+(test (vehicle-tax myBike) 2)
+(test (vehicle-tax myAirplane) 14)
+
+;c)
+(define (is-vehicle-safe v)
+  (type-case Vehicle v
+    [Bicycle (wheel)
+     (cond
+       [(< wheel 4) "safe"]
+       [else "unsafe"])]
+    [Car (wheel window)
+      (cond
+        [(> wheel 3) (cond
+                       [(> window 2) "safe"]
+                       [else "unsafe"])
+                     ]
+        [else "unsafe"])]
+    [Airplane (wheel window engine)
+      (cond
+        [(> wheel 2) (cond
+                       [(> window 10) (cond
+                                        [(> engine 1) "safe"]
+                                        [else "unsafe"])
+                                      ]
+                       [else "unsafe"]
+                       )
+          ]
+        [else "unsafe"])]))
+
+
+(test (is-vehicle-safe myBike) "safe")
+(test (is-vehicle-safe myCar) "safe")
+(test (is-vehicle-safe myAirplane) "unsafe")
+
+;Problem 7
+;Solved by myself
+;time taken around 40 mins
+;[contract] name-alphabet, list->list
+;[purpose] take a list of alphabets and produce a list of names
+;          starting with the corresponding alphabets in the given list
+;[tests] (test (name-alphabet '(a b c i j k))'(alice unnamed cherry unnamed jc kate))
+;        (test (name-alphabet '(k j i c b a))'(kate jc unnamed cherry unnamed alice unnamed))
 
 
 
+(define (name-alphabet lst)
+  (cond [(empty? lst) empty]
+        
+        ; only check for a, c, j, k
+        [(equal? (first lst) 'a) (append '(alice) (name-alphabet(rest lst)))]
+        [(equal? (first lst) 'c) (append '(cherry) (name-alphabet(rest lst)))]
+        [(equal? (first lst) 'j) (append '(jc) (name-alphabet(rest lst)))]
+        [(equal? (first lst) 'k) (append '(kate) (name-alphabet(rest lst)))]
+        
+        [else (append '(unnamed) (name-alphabet(rest lst)))]
+   ))
 
-;Problem 
-;Solved by 
-;time taken around 
-;[contract] 
-;[purpose] 
-;[tests] (test 
-;        (test 
-;        (test 
-
-
-
-
-
-
-
-
-
+(test (name-alphabet '(a b c i j k))'(alice unnamed cherry unnamed jc kate))
+(test (name-alphabet '(k j i c b a x))'(kate jc unnamed cherry unnamed alice unnamed))
 
 ;Problem 
 ;Solved by 
