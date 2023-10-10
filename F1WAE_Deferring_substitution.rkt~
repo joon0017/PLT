@@ -86,3 +86,7 @@
 
 (interp (app 'foo (app 'bar (num 5))) (list (fundef 'foo 'a (add (id 'a) (num 5)))
                                             (fundef 'bar 'b (sub (id 'b) (num 10)))))
+
+Q: Why do we need a lookup function, and how does it work?
+
+A: A lookup function is used to help find the correct function in the list of defined functions. The lookup function scans through the list recursively until it finds the function it was looking for. If it fails, it returns with an error.
