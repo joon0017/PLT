@@ -3,9 +3,7 @@ package edu.handong.csee.plt;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import edu.handong.csee.plt.ast.AST;
-import edu.handong.csee.plt.ast.Add;
-import edu.handong.csee.plt.ast.Num;
+import edu.handong.csee.plt.ast.*;
 
 public class Parser {
 
@@ -23,8 +21,29 @@ public class Parser {
 
 			return new Add(parse(subExpressions.get(1)), parse(subExpressions.get(2)));
 		}
-
+		
 		// TODO implement all other cases....
+		/*
+		 
+  (define-type FAE
+  [num (n number?)]
+  [add (lhs FAE?) (rhs FAE?)]
+  [sub (lhs FAE?) (rhs FAE?)]
+  [id (name symbol?)]
+  [fun (param symbol?) (body FAE?)]
+  [app (ftn FAE?) (arg FAE?)]
+  )
+
+		 */
+		// sub
+		if (subExpressions.get(0).equals("-")) {
+			return new Sub(parse(subExpressions.get(1)), parse(subExpressions.get(2)));
+		}
+		
+		// id
+		if 
+		
+
 
 		return null;
 	}

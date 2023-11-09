@@ -9,7 +9,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		// This is just an example code. Use args to get -p option and actual code from CLI
-		String exampleCode = "{+ {+ 2 {+ {+ 4 5} 4}} {+ 1 2}}";
+		String exampleCode = "{- {+ 2 {+ {+ 4 5} 4}} {+ 1 2}}";
 		
 		// Parser
 		Parser parser = new Parser();
